@@ -1,0 +1,4 @@
+ASP.NET core v8
+Entity (ef core)
+
+Swagger (Postman alternative)
