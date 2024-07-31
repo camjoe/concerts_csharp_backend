@@ -1,11 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using ConcertApi.Models.Concerts;
 
+Host.CreateDefaultBuilder(args)
+    .ConfigureAppConfiguration((hostingContext, config) =>
+    {
+        config.AddJsonFile("db_settings.json",
+            optional: true,
+            reloadOnChange: true);
+    });
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-//builder.Services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
-builder.Services.AddDbContext<ConcertContext>(opt => opt.UseInMemoryDatabase("ConcertsList"));
+builder.Services.AddDbContext<ConcertContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
